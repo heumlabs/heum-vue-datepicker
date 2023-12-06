@@ -1,18 +1,27 @@
-# Vue 3 + TypeScript + Vite
+# Heumlabs Vue Datepicker
 
-This template should help get you started developing with Vue 3 and TypeScript in Vite. The template uses Vue 3 `<script setup>` SFCs, check out the [script setup docs](https://v3.vuejs.org/api/sfc-script-setup.html#sfc-script-setup) to learn more.
+[![npm version](https://badge.fury.io/js/%40heumlabs%2Fvue-datepicker.svg)](https://badge.fury.io/js/%40heumlabs%2Fvue-datepicker)
 
-## Recommended IDE Setup
 
-- [VS Code](https://code.visualstudio.com/) + [Volar](https://marketplace.visualstudio.com/items?itemName=Vue.volar) (and disable Vetur) + [TypeScript Vue Plugin (Volar)](https://marketplace.visualstudio.com/items?itemName=Vue.vscode-typescript-vue-plugin).
+<p align="center">
+      <img alt="Heumlabs Vue Datepicker" width="100" src="https://github.com/heumlabs/heum-vue-datepicker/blob/main/docs/logo.svg?raw=true">
+    <br><br>
+    A Datepicker component for Vue 3
+</p>
 
-## Type Support For `.vue` Imports in TS
+### Install via npm
 
-TypeScript cannot handle type information for `.vue` imports by default, so we replace the `tsc` CLI with `vue-tsc` for type checking. In editors, we need [TypeScript Vue Plugin (Volar)](https://marketplace.visualstudio.com/items?itemName=Vue.vscode-typescript-vue-plugin) to make the TypeScript language service aware of `.vue` types.
+```
+npm install @heumlabs/vue-datepicker
+```
 
-If the standalone TypeScript plugin doesn't feel fast enough to you, Volar has also implemented a [Take Over Mode](https://github.com/johnsoncodehk/volar/discussions/471#discussioncomment-1361669) that is more performant. You can enable it by the following steps:
+## Changelog
 
-1. Disable the built-in TypeScript Extension
-   1. Run `Extensions: Show Built-in Extensions` from VSCode's command palette
-   2. Find `TypeScript and JavaScript Language Features`, right click and select `Disable (Workspace)`
-2. Reload the VSCode window by running `Developer: Reload Window` from the command palette.
+All notable changes to this project will be documented in the [Releases Page](https://github.com/heumlabs/heum-vue-datepicker/releases).
+
+## License
+
+The [MIT](LICENSE) License. Please [see](http://opensource.org/licenses/MIT) for more information.
+
+## Thanks to
+- [Sukyeong Hong](https://sueh712.myportfolio.com)(sukyeongh83@gmail.com) for the design
