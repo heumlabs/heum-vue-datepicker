@@ -1,11 +1,13 @@
 {
-  "name": "heum-vue-datepicker",
-  "private": true,
-  "version": "0.0.1",
+  "name": "@heumlabs/vue-datepicker",
+  "version": "0.0.3",
   "type": "module",
-  "files": ["dist"],
+  "files": [
+    "dist"
+  ],
   "main": "./dist/heum-vue-datepicker.umd.cjs",
   "module": "./dist/heum-vue-datepicker.js",
+  "types": "./dist/heum-vue-datepicker.d.ts",
   "exports": {
     ".": {
       "import": "./dist/heum-vue-datepicker.js",
@@ -17,10 +19,12 @@
     "build": "vue-tsc && vite build",
     "preview": "vite preview"
   },
+  "peerDependencies": {
+    "vue": "^3.0.0"
+  },
   "dependencies": {
     "dayjs": "^1.11.10",
-    "lodash": "^4.17.21",
-    "vue": "^3.3.8"
+    "lodash": "^4.17.21"
   },
   "devDependencies": {
     "@types/lodash": "^4.14.202",
@@ -29,6 +33,7 @@
     "tailwindcss": "^3.3.5",
     "typescript": "^5.2.2",
     "vite": "^5.0.0",
+    "vite-plugin-dts": "^3.6.4",
     "vue-tsc": "^1.8.22"
   }
 }
