@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import { ref, toRefs } from 'vue';
+import { toRefs } from 'vue';
 import dayjs, { Dayjs } from 'dayjs';
 import useCalendarDates from './useCalendarDates';
 
@@ -21,7 +21,6 @@ const props = withDefaults(defineProps<{
 
 const propsRefs = toRefs(props);
 
-// eslint-disable-next-line func-call-spacing, no-spaced-func
 const emit = defineEmits<{
   (e: 'click-next', forceState: boolean): void
   (e: 'click-prev'): void
@@ -51,18 +50,10 @@ const handleClickDate = (e: Event) => {
 
   emit('select', dayjs(datestring, 'YYYY.M.D'), e);
 };
-
-const rootDom = ref<HTMLDivElement>();
-defineExpose({
-  rootDom,
-});
 </script>
 
 <template>
-  <div
-    ref="rootDom"
-    class="tw-inline-block"
-  >
+  <div>
     <h4 class="tw-text-center tw-text-md tw-py-5">
       {{ year }}년 {{ monthIndex + 1 }}월
     </h4>
