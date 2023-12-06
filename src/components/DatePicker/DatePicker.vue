@@ -1,33 +1,41 @@
 <script lang="ts" setup>
-import { toRefs } from 'vue';
+import { computed, toRefs } from 'vue';
 import dayjs, { Dayjs } from 'dayjs';
+import { DATE_FORMAT } from '@/constants.ts';
 import useCalendarDates from './useCalendarDates';
 
-const props = withDefaults(defineProps<{
-  year: number;
-  monthIndex: number;
-  startDate?: Dayjs;
-  endDate?: Dayjs;
-  selectedDates?: Dayjs[];
-  disableDatesAfter?: Dayjs;
-  disableDatesBefore?: Dayjs;
-}>(), {
-  startDate: undefined,
-  endDate: undefined,
-  selectedDates: undefined,
-  disableDatesAfter: undefined,
-  disableDatesBefore: undefined,
-});
+const props = withDefaults(
+  defineProps<{
+    year: number;
+    monthIndex: number;
+    headerFormat?: string;
+    dayLabels?: [string, string, string, string, string, string, string];
+    todayLabel?: string;
+    startDate?: Dayjs;
+    endDate?: Dayjs;
+    selectedDates?: Dayjs[];
+    disableDatesAfter?: Dayjs;
+    disableDatesBefore?: Dayjs;
+  }>(),
+  {
+    headerFormat: 'YYYY.M',
+    dayLabels: () => ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'],
+    todayLabel: 'Today',
+    startDate: undefined,
+    endDate: undefined,
+    selectedDates: undefined,
+    disableDatesAfter: undefined,
+    disableDatesBefore: undefined,
+  },
+);
 
 const propsRefs = toRefs(props);
 
 const emit = defineEmits<{
-  (e: 'click-next', forceState: boolean): void
-  (e: 'click-prev'): void
-  (e: 'select', value: Dayjs, event: Event): void
+  (e: 'click-next', forceState: boolean): void;
+  (e: 'click-prev'): void;
+  (e: 'select', value: Dayjs, event: Event): void;
 }>();
-
-const weekDays = ['일', '월', '화', '수', '목', '금', '토'];
 
 const currentDate = dayjs().startOf('d');
 const { calendarDetailDates } = useCalendarDates(
@@ -48,20 +56,70 @@ const handleClickDate = (e: Event) => {
 
   const { datestring } = target.dataset as { datestring: string };
 
-  emit('select', dayjs(datestring, 'YYYY.M.D'), e);
+  emit('select', dayjs(datestring, DATE_FORMAT), e);
 };
+
+const headerText = computed(() => dayjs(
+  `${propsRefs.year.value}-${propsRefs.monthIndex.value + 1}`,
+  'YYYY-M',
+).format(propsRefs.headerFormat.value));
 </script>
 
 <template>
-  <div>
-    <h4 class="tw-text-center tw-text-md tw-py-5">
-      {{ year }}년 {{ monthIndex + 1 }}월
+  <div class="heum-vue-datepicker">
+    <h4 class="header-text">
+      {{ headerText }}
     </h4>
+
+    <div
+      class="calendar"
+      @click.capture="handleClickDate"
+    >
+      <p
+        v-for="weekDay in dayLabels"
+        :key="weekDay"
+        class="day-label"
+      >
+        {{ weekDay }}
+      </p>
+
+      <template v-for="datesRow in calendarDetailDates">
+        <div
+          v-for="date in datesRow"
+          :key="date.dateString"
+          class="date"
+        >
+          <div
+            v-if="date.inRange && !date.hidden"
+            class="in-range"
+            :class="{ start: date.isStart, end: date.isEnd }"
+          />
+          <button
+            :class="{
+              invert: date.selected,
+              bold: date.inRange || date.selected,
+              hidden: date.hidden,
+            }"
+            :disabled="date.disabled"
+            :data-datestring="date.dateString"
+          >
+            {{ date.date }}
+            <span
+              v-if="date.isToday"
+              class="today-label"
+            >{{
+              todayLabel
+            }}</span>
+          </button>
+        </div>
+      </template>
+    </div>
+
     <table>
       <thead>
         <tr>
           <th
-            v-for="weekDay in weekDays"
+            v-for="weekDay in dayLabels"
             :key="weekDay"
           >
             {{ weekDay }}
@@ -75,7 +133,7 @@ const handleClickDate = (e: Event) => {
           class="tw-text-center tw-mb-1"
         >
           <td
-            v-for="(date) in datesRow"
+            v-for="date in datesRow"
             :key="date.dateString"
             class="table-date"
           >
@@ -107,6 +165,41 @@ const handleClickDate = (e: Event) => {
 </template>
 
 <style lang="scss" scoped>
+button {
+  background-color: transparent;
+  border: none;
+  box-shadow: none;
+  border-radius: 0;
+  padding: 0;
+  overflow: visible;
+  cursor: pointer;
+}
+
+.heum-vue-datepicker {
+  min-width: 288px;
+
+  .header-text {
+    text-align: center;
+    padding: 0 20px;
+    font-size: 18px;
+    line-height: 20px;
+  }
+
+  .calendar {
+    display: grid;
+    width: 100%;
+    grid-template-columns: repeat(7, 1fr);
+    margin-top: 24px;
+    font-size: 14px;
+    line-height: 16px;
+    text-align: center;
+
+    .date {
+      height: 42px;
+    }
+  }
+}
+
 table {
   thead {
     th {

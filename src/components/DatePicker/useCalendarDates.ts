@@ -4,6 +4,7 @@ import { computed, Ref } from 'vue';
 import dayjs, { Dayjs } from 'dayjs';
 import isSameOrAfter from 'dayjs/plugin/isSameOrAfter';
 import isSameOrBefore from 'dayjs/plugin/isSameOrBefore';
+import { DATE_FORMAT } from '../../constants.ts';
 
 export interface DateDetail {
   dateString: string;
@@ -21,7 +22,7 @@ export interface DateDetail {
 }
 
 interface UseCalendarDates {
-  calendarDetailDates: Ref<DateDetail[][]>
+  calendarDetailDates: Ref<DateDetail[][]>;
 }
 
 dayjs.extend(isSameOrAfter);
@@ -49,27 +50,34 @@ const useCalendarDates = (
 
     const calendarDates = _range(CALENDAR_DATES_SIZE).map((offset) => calendarFirstDate.add(offset, 'd'));
 
-    const convertedDates = calendarDates.map((date) => ({
-      dateString: date.format('YYYY.M.D'),
-      year: date.year(),
-      month: date.month() + 1,
-      date: date.date(),
-      day: date.day(),
-      hidden: date.year() !== year.value || date.month() !== monthIndex.value,
-      disabled: (disableDatesAfter.value && date.isAfter(disableDatesAfter.value))
-        || (disableDatesBefore.value && date.isBefore(disableDatesBefore.value)),
-      selected:
-        date.isSame(startDate.value)
-        || date.isSame(endDate.value)
-        || !!selectedDates.value?.find((day) => day.isSame(date, 'day')),
-      isToday: date.isSame(currentDate),
-      isStart: date.isSame(startDate.value),
-      isEnd: date.isSame(endDate.value),
-      inRange: startDate.value
-        && endDate.value
-        && date.isSameOrAfter(startDate.value)
-        && date.isSameOrBefore(endDate.value),
-    } as DateDetail));
+    const convertedDates = calendarDates.map(
+      (date) => ({
+        dateString: date.format(DATE_FORMAT),
+        year: date.year(),
+        month: date.month() + 1,
+        date: date.date(),
+        day: date.day(),
+        hidden:
+            date.year() !== year.value || date.month() !== monthIndex.value,
+        disabled:
+            (disableDatesAfter.value
+              && date.isAfter(disableDatesAfter.value))
+            || (disableDatesBefore.value
+              && date.isBefore(disableDatesBefore.value)),
+        selected:
+            date.isSame(startDate.value)
+            || date.isSame(endDate.value)
+            || !!selectedDates.value?.find((day) => day.isSame(date, 'day')),
+        isToday: date.isSame(currentDate),
+        isStart: date.isSame(startDate.value),
+        isEnd: date.isSame(endDate.value),
+        inRange:
+            startDate.value
+            && endDate.value
+            && date.isSameOrAfter(startDate.value)
+            && date.isSameOrBefore(endDate.value),
+      }) as DateDetail,
+    );
 
     return _chunk(convertedDates, 7);
   });
