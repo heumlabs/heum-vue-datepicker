@@ -29,8 +29,9 @@
   "devDependencies": {
     "@types/lodash": "^4.14.202",
     "@vitejs/plugin-vue": "^4.5.0",
+    "autoprefixer": "^10.4.16",
+    "postcss": "^8.4.32",
     "sass": "^1.69.5",
-    "tailwindcss": "^3.3.5",
     "typescript": "^5.2.2",
     "vite": "^5.0.5",
     "vite-plugin-dts": "^3.6.4",
