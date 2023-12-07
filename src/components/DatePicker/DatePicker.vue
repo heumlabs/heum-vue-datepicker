@@ -214,6 +214,7 @@ button {
 
         &:disabled {
           color: #CACDD8;
+          cursor: not-allowed;
         }
 
         &.hidden {

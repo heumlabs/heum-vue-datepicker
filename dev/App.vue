@@ -1,14 +1,12 @@
 <script setup lang="ts">
 import DatePicker from '@/components/DatePicker';
-import dayjs from "dayjs";
 
-const selectedDates = [new Date()];
+const startDate = new Date('1995-12-17T03:24:00');
+const endDate = new Date('1995-12-23T03:24:00');
 
-const disableDatesAfter = dayjs().startOf('day').add(5, 'day').toDate();
+const disableDatesAfter = new Date('1995-12-26T18:24:00');
 
-const starDate = dayjs().startOf('month');
-const endDate = dayjs().startOf('month').add(5, 'day');
-
+const customCurrentDate = new Date('1995-12-25T13:07:00');
 const handleSelectDate = (dateString: string, event: Event) => {
   console.log(dateString, event);
 };
@@ -16,14 +14,14 @@ const handleSelectDate = (dateString: string, event: Event) => {
 
 <template>
   <div style="padding: 128px;">
-    <div style="display: inline-block;background-color: white;border-radius: 8px;">
+    <div style="display: inline-block;background-color: white;border-radius: 8px;box-shadow: 0 4px 10px rgba(165,165,165,0.2);">
       <DatePicker
-        :year="2023"
+        :year="1995"
         :month-index="11"
-        :selected-dates="selectedDates"
-        :start-date="starDate.toDate()"
-        :end-date="endDate.toDate()"
+        :start-date="startDate"
+        :end-date="endDate"
         :disable-dates-after="disableDatesAfter"
+        :current-date="customCurrentDate"
         @select="handleSelectDate"
       />
     </div>

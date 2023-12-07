@@ -15,6 +15,43 @@
 npm install @heumlabs/vue-datepicker
 ```
 
+
+### Usage
+
+![Usage](https://github.com/heumlabs/heum-vue-datepicker/blob/main/docs/usage.png?raw=true)
+
+```vue
+<script lang="ts" setup>
+  import { DatePicker } from '@heumlabs/vue-datepicker';
+  
+  // all date will be converted to start of the day (ex. '1995-12-17T00:00:00')
+  const startDate = new Date('1995-12-17T03:24:00');
+  const endDate = new Date('1995-12-23T03:24:00');
+  
+  const disableDatesAfter = new Date('1995-12-26T18:24:00');
+  
+  const customCurrentDate = new Date('1995-12-25T13:07:00');
+  
+  const onSelect = (dateString: string) => {
+    console.log(dateString) // '2023-01-01'
+  }
+</script>
+
+<template>
+  <div>
+    <DatePicker
+      :year="2023"
+      :month-index="0"
+      :start-date="startDate"
+      :end-date="endDate"
+      :current-date="customCurrentDate"
+      :disable-dates-after="disableDatesAfter"
+      @select="onSelect"
+    />
+  </div>
+</template>
+```
+
 ## Changelog
 
 All notable changes to this project will be documented in the [Releases Page](https://github.com/heumlabs/heum-vue-datepicker/releases).
