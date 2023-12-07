@@ -84,4 +84,3 @@ The [MIT](LICENSE) License. Please [see](http://opensource.org/licenses/MIT) for
 
 ## Thanks to
 - [Sukyeong Hong](https://sueh712.myportfolio.com)(sukyeongh83@gmail.com) for the design
-- 
