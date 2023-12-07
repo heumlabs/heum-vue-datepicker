@@ -33,7 +33,7 @@ const useCalendarDates = (
   monthIndex: Ref<number>,
   startDate: Ref<Dayjs | undefined>,
   endDate: Ref<Dayjs | undefined>,
-  selectedDates: Ref<Dayjs[] | undefined>,
+  selectedDates: Ref<Dayjs[]>,
   disableDatesBefore: Ref<Dayjs | undefined>,
   disableDatesAfter: Ref<Dayjs | undefined>,
 ) => {
@@ -64,7 +64,7 @@ const useCalendarDates = (
         selected:
             date.isSame(startDate.value)
             || date.isSame(endDate.value)
-            || !!selectedDates.value?.find((day) => day.isSame(date, 'day')),
+            || !!selectedDates.value.find((day) => day.isSame(date, 'day')),
         isToday: date.isSame(currentDate.value),
         isStart: date.isSame(startDate.value),
         isEnd: date.isSame(endDate.value),

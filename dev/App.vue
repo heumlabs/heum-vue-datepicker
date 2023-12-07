@@ -8,6 +8,10 @@ const disableDatesAfter = dayjs().startOf('day').add(5, 'day').toDate();
 
 const starDate = dayjs().startOf('month');
 const endDate = dayjs().startOf('month').add(5, 'day');
+
+const handleSelectDate = (dateString: string, event: Event) => {
+  console.log(dateString, event);
+};
 </script>
 
 <template>

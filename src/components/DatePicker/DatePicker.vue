@@ -37,11 +37,11 @@ const emit = defineEmits<{
 }>();
 
 const convertedCurrentDate = computed(() => dayjs(propsRefs.currentDate.value).startOf('day'));
-const convertedStartDate = computed(() => dayjs(propsRefs.startDate.value).startOf('day'));
-const convertedEndDate = computed(() => dayjs(propsRefs.endDate.value).startOf('day'));
+const convertedStartDate = computed(() => propsRefs.startDate.value ? dayjs(propsRefs.startDate.value).startOf('day') : undefined);
+const convertedEndDate = computed(() => propsRefs.endDate.value ? dayjs(propsRefs.endDate.value).startOf('day') : undefined);
 const convertedSelectedDates = computed(() => propsRefs.selectedDates.value.map((date) => dayjs(date).startOf('day')));
-const convertedDisableDatesBefore = computed(() => dayjs(propsRefs.disableDatesBefore.value).startOf('day'));
-const convertedDisableDatesAfter = computed(() => dayjs(propsRefs.disableDatesAfter.value).startOf('day'));
+const convertedDisableDatesBefore = computed(() => propsRefs.disableDatesBefore.value ? dayjs(propsRefs.disableDatesBefore.value).startOf('day') : undefined);
+const convertedDisableDatesAfter = computed(() => propsRefs.disableDatesAfter.value ? dayjs(propsRefs.disableDatesAfter.value).startOf('day') : undefined);
 
 const calendarDates = useCalendarDates(
   convertedCurrentDate,
