@@ -11,11 +11,11 @@ const props = withDefaults(
     headerFormat?: string;
     dayLabels?: [string, string, string, string, string, string, string];
     todayLabel?: string;
-    startDate?: Dayjs;
-    endDate?: Dayjs;
-    selectedDates?: Dayjs[];
-    disableDatesAfter?: Dayjs;
-    disableDatesBefore?: Dayjs;
+    startDate?: Date;
+    endDate?: Date;
+    selectedDates?: Date[];
+    disableDatesAfter?: Date;
+    disableDatesBefore?: Date;
   }>(),
   {
     headerFormat: 'YYYY.M',
@@ -114,53 +114,6 @@ const headerText = computed(() => dayjs(
         </div>
       </template>
     </div>
-
-    <table>
-      <thead>
-        <tr>
-          <th
-            v-for="weekDay in dayLabels"
-            :key="weekDay"
-          >
-            {{ weekDay }}
-          </th>
-        </tr>
-      </thead>
-      <tbody @click.capture="handleClickDate">
-        <tr
-          v-for="(datesRow, rowIndex) in calendarDetailDates"
-          :key="`${year}-${monthIndex}-${rowIndex}`"
-          class="tw-text-center tw-mb-1"
-        >
-          <td
-            v-for="date in datesRow"
-            :key="date.dateString"
-            class="table-date"
-          >
-            <div
-              v-if="date.inRange && !date.hidden"
-              class="in-range"
-              :class="{ start: date.isStart, end: date.isEnd }"
-            />
-            <button
-              :class="{
-                invert: date.selected,
-                bold: date.inRange || date.selected,
-                hidden: date.hidden,
-              }"
-              :disabled="date.disabled"
-              :data-datestring="date.dateString"
-            >
-              {{ date.date }}
-              <span
-                v-if="date.isToday"
-                class="today-label"
-              >오늘</span>
-            </button>
-          </td>
-        </tr>
-      </tbody>
-    </table>
   </div>
 </template>
 
@@ -176,13 +129,15 @@ button {
 }
 
 .heum-vue-datepicker {
-  min-width: 288px;
+  display: inline-block;
+  color: #4D4E58;
 
   .header-text {
     text-align: center;
     padding: 0 20px;
     font-size: 18px;
     line-height: 20px;
+    font-weight: normal;
   }
 
   .calendar {
@@ -192,59 +147,63 @@ button {
     margin-top: 24px;
     font-size: 14px;
     line-height: 16px;
-    text-align: center;
+
+    .day-label {
+      text-align: center;
+      font-size: 14px;
+      line-height: 16px;
+    }
 
     .date {
+      position: relative;
       height: 42px;
-    }
-  }
-}
-
-table {
-  thead {
-    th {
-      @apply tw-text-sm tw-font-normal tw-h-6;
-    }
-  }
-
-  tbody {
-    td {
-      @apply tw-relative tw-p-0 tw-m-0;
+      width: 42px;
 
       .in-range {
-        @apply tw-absolute tw-top-1 tw-bottom-0 tw-left-0 tw-right-0 tw-bg-B4;
+        position: absolute;
+        top: 0;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        background-color: #E7EDFF;
 
         &.start {
-          @apply tw-left-1/2;
+          left: 50%;
         }
 
         &.end {
-          @apply tw-right-1/2;
+          right: 50%;
         }
       }
 
       button {
-        @apply tw-relative tw-flex tw-flex-col tw-items-center tw-pt-2 tw-mt-1
-          tw-w-[42px] tw-h-[42px] tw-rounded-md tw-text-sm tw-text-G1 tw-ml-[1px];
+        position: relative;
+        display: flex;
+        flex-direction: column;
+        width: 100%;
+        height: 100%;
+        border-radius: 6px;
+        align-items: center;
+        padding-top: 8px;
+        font-size: 14px;
+        line-height: 16px;
 
         .today-label {
-          @apply tw-text-[9px] tw-leading-[10px] tw-pointer-events-none;
-        }
-
-        &:hover {
-          @apply tw-text-B1;
-        }
-
-        &.bold {
-          @apply tw-font-bold;
+          font-size: 9px;
+          line-height: 10px;
         }
 
         &.invert {
-          @apply tw-text-white tw-bg-B2;
+          background-color: #7B90FF;
+          color: #ffffff;
+        }
+
+        &.bold {
+          font-weight: bold;
         }
 
         &:disabled {
-          @apply tw-text-G3;
+          color: #CACDD8;
         }
 
         &.hidden {

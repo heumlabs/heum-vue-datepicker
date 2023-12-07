@@ -4,7 +4,9 @@ import { computed, Ref } from 'vue';
 import dayjs, { Dayjs } from 'dayjs';
 import isSameOrAfter from 'dayjs/plugin/isSameOrAfter';
 import isSameOrBefore from 'dayjs/plugin/isSameOrBefore';
-import { DATE_FORMAT } from '../../constants.ts';
+
+import { DATE_FORMAT } from '@/constants.ts';
+import convertDate from "@/components/DatePicker/convertDate.ts";
 
 export interface DateDetail {
   dateString: string;
@@ -34,11 +36,11 @@ const useCalendarDates = (
   currentDate: Dayjs,
   year: Ref<number>,
   monthIndex: Ref<number>,
-  startDate: Ref<Dayjs | undefined>,
-  endDate: Ref<Dayjs | undefined>,
-  selectedDates: Ref<Dayjs[] | undefined>,
-  disableDatesBefore: Ref<Dayjs | undefined>,
-  disableDatesAfter: Ref<Dayjs | undefined>,
+  startDate: Ref<Date | undefined>,
+  endDate: Ref<Date | undefined>,
+  selectedDates: Ref<Date[] | undefined>,
+  disableDatesBefore: Ref<Date | undefined>,
+  disableDatesAfter: Ref<Date | undefined>,
 ): UseCalendarDates => {
   const calendarDetailDates = computed<DateDetail[][]>(() => {
     const monthFirstDate = dayjs()
@@ -67,7 +69,7 @@ const useCalendarDates = (
         selected:
             date.isSame(startDate.value)
             || date.isSame(endDate.value)
-            || !!selectedDates.value?.find((day) => day.isSame(date, 'day')),
+            || !!selectedDates.value?.find((day) => convertDate(day).isSame(date, 'day')),
         isToday: date.isSame(currentDate),
         isStart: date.isSame(startDate.value),
         isEnd: date.isSame(endDate.value),
