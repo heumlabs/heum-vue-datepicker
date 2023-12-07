@@ -6,7 +6,6 @@ import isSameOrAfter from 'dayjs/plugin/isSameOrAfter';
 import isSameOrBefore from 'dayjs/plugin/isSameOrBefore';
 
 import { DATE_FORMAT } from '@/constants.ts';
-import convertDate from "@/components/DatePicker/convertDate.ts";
 
 export interface DateDetail {
   dateString: string;
@@ -23,26 +22,22 @@ export interface DateDetail {
   inRange: boolean;
 }
 
-interface UseCalendarDates {
-  calendarDetailDates: Ref<DateDetail[][]>;
-}
-
 dayjs.extend(isSameOrAfter);
 dayjs.extend(isSameOrBefore);
 
 const CALENDAR_DATES_SIZE = 7 * 6;
 
 const useCalendarDates = (
-  currentDate: Dayjs,
+  currentDate: Ref<Dayjs | undefined>,
   year: Ref<number>,
   monthIndex: Ref<number>,
-  startDate: Ref<Date | undefined>,
-  endDate: Ref<Date | undefined>,
-  selectedDates: Ref<Date[] | undefined>,
-  disableDatesBefore: Ref<Date | undefined>,
-  disableDatesAfter: Ref<Date | undefined>,
-): UseCalendarDates => {
-  const calendarDetailDates = computed<DateDetail[][]>(() => {
+  startDate: Ref<Dayjs | undefined>,
+  endDate: Ref<Dayjs | undefined>,
+  selectedDates: Ref<Dayjs[] | undefined>,
+  disableDatesBefore: Ref<Dayjs | undefined>,
+  disableDatesAfter: Ref<Dayjs | undefined>,
+) => {
+  const calendarDates = computed<DateDetail[][]>(() => {
     const monthFirstDate = dayjs()
       .set('y', year.value)
       .set('M', monthIndex.value)
@@ -69,8 +64,8 @@ const useCalendarDates = (
         selected:
             date.isSame(startDate.value)
             || date.isSame(endDate.value)
-            || !!selectedDates.value?.find((day) => convertDate(day).isSame(date, 'day')),
-        isToday: date.isSame(currentDate),
+            || !!selectedDates.value?.find((day) => day.isSame(date, 'day')),
+        isToday: date.isSame(currentDate.value),
         isStart: date.isSame(startDate.value),
         isEnd: date.isSame(endDate.value),
         inRange:
@@ -84,9 +79,7 @@ const useCalendarDates = (
     return _chunk(convertedDates, 7);
   });
 
-  return {
-    calendarDetailDates,
-  };
+  return calendarDates;
 };
 
 export default useCalendarDates;

@@ -12,13 +12,16 @@ const endDate = dayjs().startOf('month').add(5, 'day');
 
 <template>
   <div>
-    <DatePicker
-      :year="2023"
-      :month-index="11"
-      :selected-dates="selectedDates"
-      :start-date="starDate.toDate()"
-      :end-date="endDate.toDate()"
-      :disable-dates-after="disableDatesAfter"
-    />
+    <div style="display: inline-block;background-color: white;border-radius: 8px;">
+      <DatePicker
+        :year="2023"
+        :month-index="11"
+        :selected-dates="selectedDates"
+        :start-date="starDate.toDate()"
+        :end-date="endDate.toDate()"
+        :disable-dates-after="disableDatesAfter"
+        @select="handleSelectDate"
+      />
+    </div>
   </div>
 </template>

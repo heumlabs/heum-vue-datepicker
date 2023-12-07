@@ -1,7 +1,6 @@
 <script lang="ts" setup>
 import { computed, toRefs } from 'vue';
-import dayjs, { Dayjs } from 'dayjs';
-import { DATE_FORMAT } from '@/constants.ts';
+import dayjs from 'dayjs';
 import useCalendarDates from './useCalendarDates';
 
 const props = withDefaults(
@@ -14,6 +13,7 @@ const props = withDefaults(
     startDate?: Date;
     endDate?: Date;
     selectedDates?: Date[];
+    currentDate?: Date;
     disableDatesAfter?: Date;
     disableDatesBefore?: Date;
   }>(),
@@ -23,7 +23,8 @@ const props = withDefaults(
     todayLabel: 'Today',
     startDate: undefined,
     endDate: undefined,
-    selectedDates: undefined,
+    selectedDates: () => [],
+    currentDate: () => dayjs().startOf('day').toDate(),
     disableDatesAfter: undefined,
     disableDatesBefore: undefined,
   },
@@ -32,21 +33,25 @@ const props = withDefaults(
 const propsRefs = toRefs(props);
 
 const emit = defineEmits<{
-  (e: 'click-next', forceState: boolean): void;
-  (e: 'click-prev'): void;
-  (e: 'select', value: Dayjs, event: Event): void;
+  (e: 'select', dateString: string, event: Event): void;
 }>();
 
-const currentDate = dayjs().startOf('d');
-const { calendarDetailDates } = useCalendarDates(
-  currentDate,
+const convertedCurrentDate = computed(() => dayjs(propsRefs.currentDate.value).startOf('day'));
+const convertedStartDate = computed(() => dayjs(propsRefs.startDate.value).startOf('day'));
+const convertedEndDate = computed(() => dayjs(propsRefs.endDate.value).startOf('day'));
+const convertedSelectedDates = computed(() => propsRefs.selectedDates.value.map((date) => dayjs(date).startOf('day')));
+const convertedDisableDatesBefore = computed(() => dayjs(propsRefs.disableDatesBefore.value).startOf('day'));
+const convertedDisableDatesAfter = computed(() => dayjs(propsRefs.disableDatesAfter.value).startOf('day'));
+
+const calendarDates = useCalendarDates(
+  convertedCurrentDate,
   propsRefs.year,
   propsRefs.monthIndex,
-  propsRefs.startDate,
-  propsRefs.endDate,
-  propsRefs.selectedDates,
-  propsRefs.disableDatesBefore,
-  propsRefs.disableDatesAfter,
+  convertedStartDate,
+  convertedEndDate,
+  convertedSelectedDates,
+  convertedDisableDatesBefore,
+  convertedDisableDatesAfter,
 );
 
 const handleClickDate = (e: Event) => {
@@ -56,7 +61,7 @@ const handleClickDate = (e: Event) => {
 
   const { datestring } = target.dataset as { datestring: string };
 
-  emit('select', dayjs(datestring, DATE_FORMAT), e);
+  emit('select', datestring, e);
 };
 
 const headerText = computed(() => dayjs(
@@ -83,7 +88,7 @@ const headerText = computed(() => dayjs(
         {{ weekDay }}
       </p>
 
-      <template v-for="datesRow in calendarDetailDates">
+      <template v-for="datesRow in calendarDates">
         <div
           v-for="date in datesRow"
           :key="date.dateString"
