@@ -110,8 +110,8 @@ const headerText = computed(() => dayjs(
           >
             {{ date.date }}
             <span
-              v-if="date.isToday"
               class="today-label"
+              :class="{ visible: date.isToday }"
             >{{
               todayLabel
             }}</span>
@@ -134,7 +134,6 @@ button {
 }
 
 .heum-vue-datepicker {
-  display: inline-block;
   color: #4D4E58;
 
   .header-text {
@@ -162,7 +161,8 @@ button {
     .date {
       position: relative;
       height: 42px;
-      width: 42px;
+      width: 100%;
+      min-width: 42px;
 
       .in-range {
         position: absolute;
@@ -189,13 +189,18 @@ button {
         height: 100%;
         border-radius: 6px;
         align-items: center;
-        padding-top: 8px;
+        justify-content: center;
         font-size: 14px;
         line-height: 16px;
 
         .today-label {
           font-size: 9px;
           line-height: 10px;
+          visibility: hidden;
+
+          &.visible {
+            visibility: visible;
+          }
         }
 
         &.invert {

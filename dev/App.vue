@@ -15,7 +15,7 @@ const handleSelectDate = (dateString: string, event: Event) => {
 </script>
 
 <template>
-  <div>
+  <div style="padding: 128px;">
     <div style="display: inline-block;background-color: white;border-radius: 8px;">
       <DatePicker
         :year="2023"
