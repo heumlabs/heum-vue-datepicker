@@ -16,7 +16,7 @@ npm install @heumlabs/vue-datepicker
 ```
 
 
-### Usage
+## Usage
 
 ![Usage](https://github.com/heumlabs/heum-vue-datepicker/blob/main/docs/usage.png?raw=true)
 
@@ -51,6 +51,28 @@ npm install @heumlabs/vue-datepicker
   </div>
 </template>
 ```
+
+## API
+### DatePicker
+#### Props
+| Name               | Description                                               | Type     | Required | Default                                       |
+|--------------------|-----------------------------------------------------------|----------|----------|-----------------------------------------------|
+| year               | year to show                                              | `number`  | yes      |                                               |
+| monthIndex         | month to show (0 ~ 11)                                    | `number`  | yes      |                                               |
+| headerFormat       | header text format                                        | `string`  | no       | `'YYYY.M'               `                     |
+| dayLabels          | day labels start from sunday                              | `string[]` | no       | `['Sun','Mon','Tue','Wed','Thu','Fri','Sat']` |
+| todayLabel         | text shown below today                                    | `string`  | no       | `'Today'`                                         |
+| startDate          | start date for select range                               | `Date`    | no       |                                               |
+| endDate            | end date for select range                                 | `Date`    | no       |                                               |
+| selectedDates      | dates to show selected                                    | `Date[]`  | no       | `[]`                                            |
+| currentDate        | to customize current date to show today on different date | `Date`    | no       | `new Date()`                                    |
+| disableDatesAfter  | show dates disabled after disableDatesAfter               | `Date`     | no       |                                               |
+| disableDatesBefore | show dates disabled before disableDatesBefore             | `Date`     | no       |                                               |
+
+#### Events
+| Name   | Description                                       | Parameters                        |
+|--------|---------------------------------------------------|-----------------------------------|
+| select | date click event. dateString format: 'YYYY-MM-DD' | dateString:  string, event: Event |
 
 ## Changelog
 
