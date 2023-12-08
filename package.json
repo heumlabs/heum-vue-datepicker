@@ -1,6 +1,6 @@
 {
   "name": "@heumlabs/vue-datepicker",
-  "version": "0.0.4",
+  "version": "0.0.5",
   "type": "module",
   "files": [
     "dist"
@@ -12,6 +12,10 @@
     ".": {
       "import": "./dist/heum-vue-datepicker.js",
       "require": "./dist/heum-vue-datepicker.umd.cjs"
+    },
+    "./dist/index.css": {
+      "import": "./dist/index.css",
+      "require": "./dist/index.css"
     }
   },
   "scripts": {
