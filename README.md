@@ -23,6 +23,7 @@ npm install @heumlabs/vue-datepicker
 ```vue
 <script lang="ts" setup>
   import { DatePicker } from '@heumlabs/vue-datepicker';
+  import '@heumlabs/vue-datepicker/dist/style.css';
   
   // all date will be converted to start of the day (ex. '1995-12-17T00:00:00')
   const startDate = new Date('1995-12-17T03:24:00');
