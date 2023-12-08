@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import DatePicker from '@/components/DatePicker';
+import DatePicker from '@/DatePicker';
 
 const startDate = new Date('1995-12-17T03:24:00');
 const endDate = new Date('1995-12-23T03:24:00');
@@ -27,3 +27,13 @@ const handleSelectDate = (dateString: string, event: Event) => {
     </div>
   </div>
 </template>
+
+<!--<style lang="scss">-->
+<!--// apply custom theme-->
+<!--:root {-->
+<!--  &#45;&#45;heumlabs-vue-datepicker-text-color: #000000;-->
+<!--  &#45;&#45;heumlabs-vue-datepicker-disabled-color: #DDDDDD;-->
+<!--  &#45;&#45;heumlabs-vue-datepicker-select-color: #FFB534;-->
+<!--  &#45;&#45;heumlabs-vue-datepicker-range-color: #FBF6EE;-->
+<!--}-->
+<!--</style>-->

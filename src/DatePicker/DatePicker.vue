@@ -16,6 +16,10 @@ const props = withDefaults(
     currentDate?: Date;
     disableDatesAfter?: Date;
     disableDatesBefore?: Date;
+    hidePrevButton?: boolean;
+    hideNextButton?: boolean;
+    disablePrevButton?: boolean;
+    disableNextButton?: boolean;
   }>(),
   {
     headerFormat: 'YYYY.M',
@@ -30,23 +34,35 @@ const props = withDefaults(
   },
 );
 
-const propsRefs = toRefs(props);
+const { year, monthIndex } = toRefs(props);
 
 const emit = defineEmits<{
   (e: 'select', dateString: string, event: Event): void;
+  (e: 'click-prev'): void;
+  (e: 'click-next'): void;
 }>();
 
-const convertedCurrentDate = computed(() => dayjs(propsRefs.currentDate.value).startOf('day'));
-const convertedStartDate = computed(() => propsRefs.startDate.value ? dayjs(propsRefs.startDate.value).startOf('day') : undefined);
-const convertedEndDate = computed(() => propsRefs.endDate.value ? dayjs(propsRefs.endDate.value).startOf('day') : undefined);
-const convertedSelectedDates = computed(() => propsRefs.selectedDates.value.map((date) => dayjs(date).startOf('day')));
-const convertedDisableDatesBefore = computed(() => propsRefs.disableDatesBefore.value ? dayjs(propsRefs.disableDatesBefore.value).startOf('day') : undefined);
-const convertedDisableDatesAfter = computed(() => propsRefs.disableDatesAfter.value ? dayjs(propsRefs.disableDatesAfter.value).startOf('day') : undefined);
+const convertedCurrentDate = computed(() => dayjs(props.currentDate).startOf('day'));
+const convertedStartDate = computed(() => props.startDate
+    ? dayjs(props.startDate).startOf('day')
+    : undefined);
+const convertedEndDate = computed(() => props.endDate
+    ? dayjs(props.endDate).startOf('day')
+    : undefined);
+const convertedSelectedDates = computed(() => props.selectedDates
+    .map((date) => dayjs(date)
+    .startOf('day')));
+const convertedDisableDatesBefore = computed(() => props.disableDatesBefore
+    ? dayjs(props.disableDatesBefore).startOf('day')
+    : undefined);
+const convertedDisableDatesAfter = computed(() => props.disableDatesAfter
+    ? dayjs(props.disableDatesAfter).startOf('day')
+    : undefined);
 
 const calendarDates = useCalendarDates(
   convertedCurrentDate,
-  propsRefs.year,
-  propsRefs.monthIndex,
+  year,
+  monthIndex,
   convertedStartDate,
   convertedEndDate,
   convertedSelectedDates,
@@ -65,16 +81,58 @@ const handleClickDate = (e: Event) => {
 };
 
 const headerText = computed(() => dayjs(
-  `${propsRefs.year.value}-${propsRefs.monthIndex.value + 1}`,
+  `${year.value}-${monthIndex.value + 1}`,
   'YYYY-M',
-).format(propsRefs.headerFormat.value));
+).format(props.headerFormat));
 </script>
 
 <template>
   <div class="heum-vue-datepicker">
-    <h4 class="header-text">
-      {{ headerText }}
-    </h4>
+    <div class="header">
+      <button
+        class="prev"
+        @click="$emit('click-prev')"
+      >
+        <svg
+          width="20"
+          height="20"
+          viewBox="0 0 20 20"
+          fill="none"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <path
+            d="M12.5 3.75L6.25 10L12.5 16.25"
+            stroke="#000000"
+            stroke-width="1.6"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          />
+        </svg>
+      </button>
+      <h4>
+        {{ headerText }}
+      </h4>
+      <button
+        class="next"
+        @click="$emit('click-next')"
+      >
+        <svg
+          width="20"
+          height="20"
+          viewBox="0 0 20 20"
+          fill="none"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <path
+            d="M7.5 16.25L13.75 10L7.5 3.75"
+            stroke="#000000"
+            stroke-width="1.6"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          />
+        </svg>
+      </button>
+    </div>
 
     <div
       class="calendar"
@@ -122,33 +180,64 @@ const headerText = computed(() => dayjs(
   </div>
 </template>
 
-<style lang="scss" scoped>
-button {
-  background-color: transparent;
-  border: none;
-  box-shadow: none;
-  border-radius: 0;
-  padding: 0;
-  overflow: visible;
-  cursor: pointer;
+<style lang="scss">
+:root {
+  --heumlabs-vue-datepicker-text-color: #4D4E58;
+  --heumlabs-vue-datepicker-disabled-color: #CACDD8;
+  --heumlabs-vue-datepicker-select-color: #7B90FF;
+  --heumlabs-vue-datepicker-range-color: #E7EDFF;
 }
+</style>
 
+<style lang="scss" scoped>
 .heum-vue-datepicker {
-  color: #4D4E58;
+  button {
+    background-color: transparent;
+    border: none;
+    box-shadow: none;
+    border-radius: 0;
+    padding: 0;
+    overflow: visible;
+    cursor: pointer;
+  }
 
-  .header-text {
-    text-align: center;
-    padding: 0 20px;
-    font-size: 18px;
-    line-height: 20px;
-    font-weight: normal;
+  color: var(--heumlabs-vue-datepicker-text-color);
+
+  .header{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    button {
+      width: 20px;
+      height: 20px;
+
+      svg > path {
+        stroke: var(--heumlabs-vue-datepicker-text-color);
+      }
+
+      &:disabled {
+        svg > path {
+          stroke: var(--heumlabs-vue-datepicker-disabled-color);
+        }
+      }
+    }
+
+    h4 {
+      margin: 0;
+      text-align: center;
+      font-size: 18px;
+      line-height: 20px;
+      font-weight: normal;
+      padding-top: 24px;
+      padding-bottom: 24px;
+    }
   }
 
   .calendar {
     display: grid;
     width: 100%;
     grid-template-columns: repeat(7, 1fr);
-    margin-top: 24px;
     font-size: 14px;
     line-height: 16px;
 
@@ -170,7 +259,7 @@ button {
         bottom: 0;
         left: 0;
         right: 0;
-        background-color: #E7EDFF;
+        background-color: var(--heumlabs-vue-datepicker-range-color);
 
         &.start {
           left: 50%;
@@ -204,7 +293,7 @@ button {
         }
 
         &.invert {
-          background-color: #7B90FF;
+          background-color: var(--heumlabs-vue-datepicker-select-color);
           color: #ffffff;
         }
 
@@ -213,7 +302,7 @@ button {
         }
 
         &:disabled {
-          color: #CACDD8;
+          color: var(--heumlabs-vue-datepicker-disabled-color);
           cursor: not-allowed;
         }
 
