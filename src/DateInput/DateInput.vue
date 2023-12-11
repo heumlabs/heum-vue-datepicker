@@ -1,15 +1,15 @@
 <script lang="ts" setup>
-import {ref} from 'vue';
-import dayjs, {Dayjs} from 'dayjs';
+import { ref } from 'vue';
+import dayjs from 'dayjs';
 
 import isInValidRange from './isValidRange';
-import {DATE_FORMAT} from "@/constants.ts";
+import { DATE_FORMAT } from "@/constants.ts";
 
 const props = defineProps<{
   label: string;
   value: string;
-  disableDatesAfter?: Dayjs;
-  disableDatesBefore?: Dayjs;
+  disableDatesAfter?: Date;
+  disableDatesBefore?: Date;
 }>();
 
 // eslint-disable-next-line func-call-spacing, no-spaced-func
@@ -107,7 +107,8 @@ const handleChange = (e: Event) => {
         xmlns="http://www.w3.org/2000/svg"
       >
         <path
-          d="M14.25 4.8075L13.1925 3.75L9 7.9425L4.8075 3.75L3.75 4.8075L7.9425 9L3.75 13.1925L4.8075 14.25L9 10.0575L13.1925 14.25L14.25 13.1925L10.0575 9L14.25 4.8075Z"
+          d="M14.25 4.8075L13.1925 3.75L9 7.9425L4.8075 3.75L3.75 4.8075L7.9425 9L3.75
+          13.1925L4.8075 14.25L9 10.0575L13.1925 14.25L14.25 13.1925L10.0575 9L14.25 4.8075Z"
         />
       </svg>
     </button>
