@@ -22,7 +22,9 @@
 
     "paths": {
       "@/*": ["./src/*"]
-    }
+    },
+
+    "types": ["vitest/globals"]
   },
   "include": ["src/**/*.ts", "src/**/*.vue", "dev/**/*.ts", "dev/**/*.vue"],
   "references": [{ "path": "./tsconfig.node.json" }]

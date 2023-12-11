@@ -1,0 +1,23 @@
+:root {
+  --heumlabs-vue-datepicker-text-color: #4D4E58;
+  --heumlabs-vue-datepicker-label-color: #8E9098;
+  --heumlabs-vue-datepicker-disabled-color: #CACDD8;
+  --heumlabs-vue-datepicker-select-color: #7B90FF;
+  --heumlabs-vue-datepicker-range-color: #E7EDFF;
+}
+
+button {
+  background-color: transparent;
+  border: none;
+  box-shadow: none;
+  border-radius: 0;
+  padding: 0;
+  overflow: visible;
+  cursor: pointer;
+}
+
+* {
+  font-family: 'Spoqa Han Sans Neo', 'sans-serif', sans-serif;
+  letter-spacing: -0.03em;
+  -webkit-font-smoothing: antialiased;
+}
