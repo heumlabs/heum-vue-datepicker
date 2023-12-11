@@ -181,9 +181,7 @@ const headerText = computed(() => dayjs(
 </template>
 
 <style lang="scss" scoped>
-* {
-  color: var(--heumlabs-vue-datepicker-text-color);
-}
+@import '@/style.scss';
 
 .header{
   display: flex;

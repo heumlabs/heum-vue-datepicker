@@ -51,11 +51,8 @@ const  handleInput = (e: Event) => {
   target.value = target.value.replace(/([^\d|.])/g, '');
 };
 
-const handleChange = (e: Event) => {
-  const value = (e.target as HTMLInputElement).value.replace(/([^\d|.])/g, '');
-
-  const newDateValue = dayjs(value, 'YYYY.M.D');
-
+const validateAndEmitDate = (value: string, format: string) => {
+  const newDateValue = dayjs(value, format);
   if (
     newDateValue.isValid()
     && isInValidRange(
@@ -64,11 +61,17 @@ const handleChange = (e: Event) => {
       props.disableDatesAfter,
     )
   ) {
-    emit('input', newDateValue.format(DATE_FORMAT));
-    return;
+    return newDateValue.format(DATE_FORMAT);
   }
+  return undefined;
+};
 
-  handleClickClear();
+const handleChange = (e: Event) => {
+  const value = (e.target as HTMLInputElement).value;
+  const formattedDate = validateAndEmitDate(value.slice(0, 8).replace(/\./g, ''), 'YYYYMMDD')
+    || validateAndEmitDate(value, 'YYYY.M.D');
+
+  emit('input', formattedDate);
 };
 </script>
 
@@ -112,6 +115,8 @@ const handleChange = (e: Event) => {
 </template>
 
 <style lang="scss" scoped>
+@import '@/style.scss';
+
 .date-input {
   box-sizing: border-box;
   display: flex;
