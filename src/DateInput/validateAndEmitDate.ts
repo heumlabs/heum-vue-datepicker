@@ -1,23 +1,21 @@
 import { DATE_FORMAT } from "@/constants";
 import convertDate from "@/utils/convertDate";
 import dayjs from "dayjs";
-import isInValidRange from "./isValidRange";
+import isValidDate from "./isValidDate";
 
 const validateAndEmitDate = (
-  value: string, 
-  format: string, 
   disableDatesBefore?: Date, 
   disableDatesAfter?: Date,
+) => (
+  value: string, 
+  format: string, 
 ) => {
   const newDateValue = dayjs(value, format);
-  if (
-    newDateValue.isValid()
-    && isInValidRange(
+  if (isValidDate(
       newDateValue,
       disableDatesBefore ? convertDate(disableDatesBefore) : undefined,
       disableDatesAfter ? convertDate(disableDatesAfter) : undefined,
-    )
-  ) {
+  )) {
     return newDateValue.format(DATE_FORMAT);
   }
   return undefined;

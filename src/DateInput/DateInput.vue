@@ -52,17 +52,13 @@ const  handleInput = (e: Event) => {
 // change handler validate date and emit
 const handleChange = (e: Event) => {
   const value = (e.target as HTMLInputElement).value;
-  const formattedDate = validateAndEmitDate(
-    value.slice(0, 8).replace(/\./g, ''), 
-    'YYYYMMDD', 
+  const getValidDate = validateAndEmitDate(
     props.disableDatesBefore, 
     props.disableDatesAfter
-  ) || validateAndEmitDate(
-    value, 
-    'YYYY.M.D',
-    props.disableDatesBefore,
-    props.disableDatesAfter,
-  );
+  )
+
+  const formattedDate = getValidDate(value.slice(0, 8).replace(/\./g, ''), 'YYYYMMDD') 
+    || getValidDate(value, 'YYYY.M.D');
 
   emit('input', formattedDate);
 };
