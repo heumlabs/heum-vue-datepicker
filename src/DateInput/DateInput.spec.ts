@@ -94,7 +94,7 @@ describe('DateInput.vue', () => {
     await inputElement.setValue('2022.234');
     await flushPromises();
 
-    expect((wrapper.emitted().input?.[0] as never)[0]).toEqual(undefined);
+    expect((wrapper.emitted().input?.[0] as never)[0]).toEqual('');
   });
   
   it('emit date string when valid date input', async () => {
@@ -146,7 +146,7 @@ describe('DateInput.vue', () => {
     await inputElement.setValue('2022.6.1');
     await flushPromises();
 
-    expect((wrapper.emitted().input?.[0] as never)[0]).toEqual(undefined);
+    expect((wrapper.emitted().input?.[0] as never)[0]).toEqual('');
   });
   it('emit undefined when input is valid and date is in invalid range 2', async () => {
     const disableDatesBefore = new Date(2022, 5, 3);
@@ -164,7 +164,7 @@ describe('DateInput.vue', () => {
     await inputElement.setValue('2022.7.1');
     await flushPromises();
 
-    expect((wrapper.emitted().input?.[0] as never)[0]).toEqual(undefined);
+    expect((wrapper.emitted().input?.[0] as never)[0]).toEqual('');
   });
   it('유효한 value 값이 있는 경우 clear 버튼이 노출되지 않는다.', () => {
     const wrapper = mount(DateInput, {
@@ -197,6 +197,6 @@ describe('DateInput.vue', () => {
     const clearButton = wrapper.find('button');
     await clearButton.trigger('click');
 
-    expect((wrapper.emitted().input?.[0] as never)[0]).toEqual(undefined);
+    expect((wrapper.emitted().input?.[0] as never)[0]).toEqual('');
   });
 });
