@@ -1,16 +1,15 @@
 import { Dayjs } from 'dayjs';
-import convertDate from "@/utils/convertDate.ts";
 
 const isInValidRange = (
   targetDate: Dayjs,
-  disableDatesBefore?: Date,
-  disableDatesAfter?: Date,
+  disableDatesBefore?: Dayjs,
+  disableDatesAfter?: Dayjs,
 ): boolean => {
-  if (disableDatesBefore && targetDate.isBefore(convertDate(disableDatesBefore))) {
+  if (disableDatesBefore && targetDate.isBefore(disableDatesBefore)) {
     return false;
   }
 
-  if (disableDatesAfter && targetDate.isAfter(convertDate(disableDatesAfter))) {
+  if (disableDatesAfter && targetDate.isAfter(disableDatesAfter)) {
     return false;
   }
 

@@ -1,9 +1,7 @@
 <script lang="ts" setup>
 import { ref } from 'vue';
-import dayjs from 'dayjs';
 
-import isInValidRange from './isValidRange';
-import { DATE_FORMAT } from "@/constants.ts";
+import validateAndEmitDate from './validateAndEmitDate';
 
 const props = defineProps<{
   label: string;
@@ -12,7 +10,6 @@ const props = defineProps<{
   disableDatesBefore?: Date;
 }>();
 
-// eslint-disable-next-line func-call-spacing, no-spaced-func
 const emit = defineEmits<{
   (eventName: 'focus', event: Event): void
   (eventName: 'blur', event: Event): void
@@ -46,30 +43,26 @@ const handleClickClear = () => {
   emit('input', undefined);
 };
 
+// input handler limit value to numbers and dots
 const  handleInput = (e: Event) => {
   const target = e.target as HTMLInputElement;
   target.value = target.value.replace(/([^\d|.])/g, '');
 };
 
-const validateAndEmitDate = (value: string, format: string) => {
-  const newDateValue = dayjs(value, format);
-  if (
-    newDateValue.isValid()
-    && isInValidRange(
-      newDateValue,
-      props.disableDatesBefore,
-      props.disableDatesAfter,
-    )
-  ) {
-    return newDateValue.format(DATE_FORMAT);
-  }
-  return undefined;
-};
-
+// change handler validate date and emit
 const handleChange = (e: Event) => {
   const value = (e.target as HTMLInputElement).value;
-  const formattedDate = validateAndEmitDate(value.slice(0, 8).replace(/\./g, ''), 'YYYYMMDD')
-    || validateAndEmitDate(value, 'YYYY.M.D');
+  const formattedDate = validateAndEmitDate(
+    value.slice(0, 8).replace(/\./g, ''), 
+    'YYYYMMDD', 
+    props.disableDatesBefore, 
+    props.disableDatesAfter
+  ) || validateAndEmitDate(
+    value, 
+    'YYYY.M.D',
+    props.disableDatesBefore,
+    props.disableDatesAfter,
+  );
 
   emit('input', formattedDate);
 };

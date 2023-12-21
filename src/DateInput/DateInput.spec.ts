@@ -1,5 +1,5 @@
 import { flushPromises, mount } from '@vue/test-utils';
-import dayjs, { Dayjs } from 'dayjs';
+import { Dayjs } from 'dayjs';
 import DateInput from './DateInput.vue';
 
 interface VM {
@@ -96,6 +96,7 @@ describe('DateInput.vue', () => {
 
     expect((wrapper.emitted().input?.[0] as never)[0]).toEqual(undefined);
   });
+  
   it('emit date string when valid date input', async () => {
     const wrapper = mount(DateInput, {
       props: {
@@ -110,9 +111,10 @@ describe('DateInput.vue', () => {
 
     expect(((wrapper.emitted().input?.[0] as never)[0] as Dayjs)).toEqual('2022-12-01');
   });
+
   it('emit date string when input is valid and date is in valid range', async () => {
-    const disableDatesBefore = dayjs(new Date(2022, 5, 3));
-    const disableDatesAfter = dayjs(new Date(2022, 5, 12));
+    const disableDatesBefore = new Date(2022, 5, 3);
+    const disableDatesAfter = new Date(2022, 5, 12);
     const wrapper = mount(DateInput, {
       props: {
         label: 'DateInput test',
@@ -129,8 +131,8 @@ describe('DateInput.vue', () => {
     expect(((wrapper.emitted().input?.[0] as never)[0] as Dayjs)).toEqual('2022-06-06');
   });
   it('emit undefined when input is valid and date is in invalid range 1', async () => {
-    const disableDatesBefore = dayjs(new Date(2022, 5, 3));
-    const disableDatesAfter = dayjs(new Date(2022, 5, 12));
+    const disableDatesBefore = new Date(2022, 5, 3);
+    const disableDatesAfter = new Date(2022, 5, 12);
     const wrapper = mount(DateInput, {
       props: {
         label: 'DateInput test',
@@ -147,8 +149,8 @@ describe('DateInput.vue', () => {
     expect((wrapper.emitted().input?.[0] as never)[0]).toEqual(undefined);
   });
   it('emit undefined when input is valid and date is in invalid range 2', async () => {
-    const disableDatesBefore = dayjs(new Date(2022, 5, 3));
-    const disableDatesAfter = dayjs(new Date(2022, 5, 12));
+    const disableDatesBefore = new Date(2022, 5, 3);
+    const disableDatesAfter = new Date(2022, 5, 12);
     const wrapper = mount(DateInput, {
       props: {
         label: 'DateInput test',
