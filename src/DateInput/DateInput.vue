@@ -13,7 +13,7 @@ const props = defineProps<{
 const emit = defineEmits<{
   (eventName: 'focus', event: Event): void
   (eventName: 'blur', event: Event): void
-  (eventName: 'input', value?: string): void
+  (eventName: 'input', value: string): void
 }>();
 
 const inputRef = ref<HTMLInputElement>();
@@ -40,7 +40,7 @@ const handleKeyDownEnter = () => {
 };
 
 const handleClickClear = () => {
-  emit('input', undefined);
+  emit('input', '');
 };
 
 // input handler limit value to numbers and dots
@@ -60,7 +60,7 @@ const handleChange = (e: Event) => {
   const formattedDate = getValidDate(value.slice(0, 8).replace(/\./g, ''), 'YYYYMMDD') 
     || getValidDate(value, 'YYYY.M.D');
 
-  emit('input', formattedDate);
+  emit('input', formattedDate || '');
 };
 </script>
 

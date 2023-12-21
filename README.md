@@ -56,24 +56,40 @@ npm install @heumlabs/vue-datepicker
 ## API
 ### DatePicker
 #### Props
-| Name               | Description                                               | Type     | Required | Default                                       |
-|--------------------|-----------------------------------------------------------|----------|----------|-----------------------------------------------|
+| Name               | Description                                               | Type      | Required | Default                                       |
+|--------------------|-----------------------------------------------------------|-----------|----------|-----------------------------------------------|
 | year               | year to show                                              | `number`  | yes      |                                               |
 | monthIndex         | month to show (0 ~ 11)                                    | `number`  | yes      |                                               |
 | headerFormat       | header text format                                        | `string`  | no       | `'YYYY.M'               `                     |
-| dayLabels          | day labels start from sunday                              | `string[]` | no       | `['Sun','Mon','Tue','Wed','Thu','Fri','Sat']` |
-| todayLabel         | text shown below today                                    | `string`  | no       | `'Today'`                                         |
+| dayLabels          | day labels start from sunday                              | `string[]`| no       | `['Sun','Mon','Tue','Wed','Thu','Fri','Sat']` |
+| todayLabel         | text shown below today                                    | `string`  | no       | `'Today'`                                     |
 | startDate          | start date for select range                               | `Date`    | no       |                                               |
 | endDate            | end date for select range                                 | `Date`    | no       |                                               |
-| selectedDates      | dates to show selected                                    | `Date[]`  | no       | `[]`                                            |
-| currentDate        | to customize current date to show today on different date | `Date`    | no       | `new Date()`                                    |
-| disableDatesAfter  | show dates disabled after disableDatesAfter               | `Date`     | no       |                                               |
-| disableDatesBefore | show dates disabled before disableDatesBefore             | `Date`     | no       |                                               |
+| selectedDates      | dates to show selected                                    | `Date[]`  | no       | `[]`                                          |
+| currentDate        | to customize current date to show today on different date | `Date`    | no       | `new Date()`                                  |
+| disableDatesAfter  | show dates disabled after disableDatesAfter               | `Date`    | no       |                                               |
+| disableDatesBefore | show dates disabled before disableDatesBefore             | `Date`    | no       |                                               |
 
 #### Events
 | Name   | Description                                       | Parameters                        |
 |--------|---------------------------------------------------|-----------------------------------|
 | select | date click event. dateString format: 'YYYY-MM-DD' | dateString:  string, event: Event |
+
+### DateInput
+#### Props
+| Name               | Description                                                                           | Type      | Required | Default     |
+|--------------------|---------------------------------------------------------------------------------------|-----------|----------|-------------|
+| label              | input label text                                                                      | `string`  | yes      |             |
+| value              | formatted date string ('YYYY-MM-DD') or empty string if input string value is invalid | `string`  | yes      |             |
+| disableDatesAfter  | property for validation                                                               | `Date`    | no       |             |
+| disableDatesBefore | property for validation                                                               | `Date`    | no       |             |
+
+#### Events
+| Name   | Description                                       | Parameters                        |
+|--------|---------------------------------------------------|-----------------------------------|
+| input  | date input event. dateString format: 'YYYY-MM-DD' | dateString: string                |
+| focus  | input focus event.                                | event: Event                      |
+| blur   | input blur event.                                 | event: Event                      |
 
 ## Changelog
 
