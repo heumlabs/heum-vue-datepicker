@@ -2,8 +2,6 @@ import _range from 'lodash/range';
 import _chunk from 'lodash/chunk';
 import { computed, Ref } from 'vue';
 import dayjs, { Dayjs } from 'dayjs';
-import isSameOrAfter from 'dayjs/plugin/isSameOrAfter';
-import isSameOrBefore from 'dayjs/plugin/isSameOrBefore';
 
 import { DATE_FORMAT } from '@/constants.ts';
 
@@ -21,9 +19,6 @@ export interface DateDetail {
   isEnd: boolean;
   inRange: boolean;
 }
-
-dayjs.extend(isSameOrAfter);
-dayjs.extend(isSameOrBefore);
 
 const CALENDAR_DATES_SIZE = 7 * 6;
 

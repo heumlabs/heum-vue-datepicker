@@ -87,7 +87,7 @@ const headerText = computed(() => dayjs(
 </script>
 
 <template>
-  <div class="heum-vue-datepicker">
+  <div>
     <div class="header">
       <button
         class="prev"
@@ -180,135 +180,114 @@ const headerText = computed(() => dayjs(
   </div>
 </template>
 
-<style lang="scss">
-:root {
-  --heumlabs-vue-datepicker-text-color: #4D4E58;
-  --heumlabs-vue-datepicker-disabled-color: #CACDD8;
-  --heumlabs-vue-datepicker-select-color: #7B90FF;
-  --heumlabs-vue-datepicker-range-color: #E7EDFF;
-}
-</style>
-
 <style lang="scss" scoped>
-.heum-vue-datepicker {
+@import '@/style.scss';
+
+.header{
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
   button {
-    background-color: transparent;
-    border: none;
-    box-shadow: none;
-    border-radius: 0;
-    padding: 0;
-    overflow: visible;
-    cursor: pointer;
+    width: 20px;
+    height: 20px;
+
+    svg > path {
+      stroke: var(--heumlabs-vue-datepicker-text-color);
+    }
+
+    &:disabled {
+      svg > path {
+        stroke: var(--heumlabs-vue-datepicker-disabled-color);
+      }
+    }
   }
 
-  color: var(--heumlabs-vue-datepicker-text-color);
+  h4 {
+    margin: 0;
+    text-align: center;
+    font-size: 18px;
+    line-height: 20px;
+    font-weight: normal;
+    padding-top: 24px;
+    padding-bottom: 24px;
+  }
+}
 
-  .header{
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
+.calendar {
+  display: grid;
+  width: 100%;
+  grid-template-columns: repeat(7, 1fr);
+  font-size: 14px;
+  line-height: 16px;
+
+  .day-label {
+    text-align: center;
+    font-size: 14px;
+    line-height: 16px;
+  }
+
+  .date {
+    position: relative;
+    height: 42px;
+    width: 100%;
+    min-width: 42px;
+
+    .in-range {
+      position: absolute;
+      top: 0;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      background-color: var(--heumlabs-vue-datepicker-range-color);
+
+      &.start {
+        left: 50%;
+      }
+
+      &.end {
+        right: 50%;
+      }
+    }
 
     button {
-      width: 20px;
-      height: 20px;
+      position: relative;
+      display: flex;
+      flex-direction: column;
+      width: 100%;
+      height: 100%;
+      border-radius: 6px;
+      align-items: center;
+      justify-content: center;
+      font-size: 14px;
+      line-height: 16px;
 
-      svg > path {
-        stroke: var(--heumlabs-vue-datepicker-text-color);
+      .today-label {
+        font-size: 9px;
+        line-height: 10px;
+        visibility: hidden;
+
+        &.visible {
+          visibility: visible;
+        }
+      }
+
+      &.invert {
+        background-color: var(--heumlabs-vue-datepicker-select-color);
+        color: #ffffff;
+      }
+
+      &.bold {
+        font-weight: bold;
       }
 
       &:disabled {
-        svg > path {
-          stroke: var(--heumlabs-vue-datepicker-disabled-color);
-        }
-      }
-    }
-
-    h4 {
-      margin: 0;
-      text-align: center;
-      font-size: 18px;
-      line-height: 20px;
-      font-weight: normal;
-      padding-top: 24px;
-      padding-bottom: 24px;
-    }
-  }
-
-  .calendar {
-    display: grid;
-    width: 100%;
-    grid-template-columns: repeat(7, 1fr);
-    font-size: 14px;
-    line-height: 16px;
-
-    .day-label {
-      text-align: center;
-      font-size: 14px;
-      line-height: 16px;
-    }
-
-    .date {
-      position: relative;
-      height: 42px;
-      width: 100%;
-      min-width: 42px;
-
-      .in-range {
-        position: absolute;
-        top: 0;
-        bottom: 0;
-        left: 0;
-        right: 0;
-        background-color: var(--heumlabs-vue-datepicker-range-color);
-
-        &.start {
-          left: 50%;
-        }
-
-        &.end {
-          right: 50%;
-        }
+        color: var(--heumlabs-vue-datepicker-disabled-color);
+        cursor: not-allowed;
       }
 
-      button {
-        position: relative;
-        display: flex;
-        flex-direction: column;
-        width: 100%;
-        height: 100%;
-        border-radius: 6px;
-        align-items: center;
-        justify-content: center;
-        font-size: 14px;
-        line-height: 16px;
-
-        .today-label {
-          font-size: 9px;
-          line-height: 10px;
-          visibility: hidden;
-
-          &.visible {
-            visibility: visible;
-          }
-        }
-
-        &.invert {
-          background-color: var(--heumlabs-vue-datepicker-select-color);
-          color: #ffffff;
-        }
-
-        &.bold {
-          font-weight: bold;
-        }
-
-        &:disabled {
-          color: var(--heumlabs-vue-datepicker-disabled-color);
-          cursor: not-allowed;
-        }
-
-        &.hidden {
-          visibility: hidden;
-        }
+      &.hidden {
+        visibility: hidden;
       }
     }
   }
